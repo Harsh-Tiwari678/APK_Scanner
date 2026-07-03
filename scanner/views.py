@@ -3,4 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 
 def home(request):
-    return render(request , 'home.html')
+    context = {
+        'title' : 'APK_Scanner',
+        'Project'  : 'APK Scanner'
+
+    }
+    return render(request , 'home.html',context)
