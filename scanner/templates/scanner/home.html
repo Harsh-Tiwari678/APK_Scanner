@@ -1,12 +1,29 @@
 {% extends "scanner/base.html" %}
 
-
-{% block title %}
-APK Scanner Home Page 
-{% endblock %}
+{% block title %}APK Scanner
+{% endblock %}  
 
 {% block content %}
-<h1> Hello {{Username}} </h1>
-<p> This is my Internship Project {{Project}} </p>
+
+<h1> APK Scanner </h1>
+
+<form 
+ method="post"
+enctype = "multipart/form-data">
+
+{% csrf_token %}
+
+<input type="file"
+name = "apk"
+>
+
+<br> <br>
+
+<button type = "submit">
+    Upload your APK
+</button>
+
+</form>
+
 {% endblock %}
 

@@ -9,4 +9,12 @@ def home(request):
         'Project'  : 'APK Scanner'
 
     }
+
+    if request.method == "POST":
+     print("Form Submitted Succesfully")
+     apk = request.FILES["apk"]
+     print(type(apk))
+     print(apk.multiple_chunks())
+     print(apk.charset)
+     
     return render(request , 'scanner/home.html',context)
