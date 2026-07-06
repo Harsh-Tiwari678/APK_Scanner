@@ -1,72 +1,144 @@
 import os
+import requests
+
 from django.conf import settings
 from .models import APK
-import requests 
 
 
-def save_uploaded_apk(apk):   # the work is to save the apk to database 
+# -------------------------------------------------
+# MobSF Configuration
+# -------------------------------------------------
+
+MOBSF_URL = "http://localhost:8080"
+
+API_KEY = "YOUR_MOBSF_API_KEY"
+
+
+# -------------------------------------------------
+# Save Uploaded APK
+# -------------------------------------------------
+
+def save_uploaded_apk(apk):
+    """
+    Saves the uploaded APK inside media/uploads/
+    and creates the initial database record.
+    """
+
     upload_folder = os.path.join(settings.MEDIA_ROOT, "uploads")
+
     os.makedirs(upload_folder, exist_ok=True)
+
     save_path = os.path.join(upload_folder, apk.name)
 
     with open(save_path, "wb+") as destination:
+
         for chunk in apk.chunks():
             destination.write(chunk)
 
     apk_record = APK.objects.create(
+
         apk_name=apk.name,
+
         file_path=save_path,
-        status="Uploaded"
+
+        status="UPLOADED"
+
     )
+
     return apk_record
 
 
-def upload_to_mobsf(apk_path):   # send apk to mobsf
+# -------------------------------------------------
+# Upload APK to MobSF
+# -------------------------------------------------
 
-    url = "http://localhost:8080/api/v1/upload" #send my request to this adresss 
+def upload_to_mobsf(apk_path):
+    """
+    Uploads the APK to MobSF.
+    Returns:
+        {
+            "hash": "...",
+            "file_name": "...",
+            ...
+        }
+    """
+
+    url = f"{MOBSF_URL}/api/v1/upload"
+
     headers = {
-        "X-Mobsf-Api-Key": "b541bd4227fb67f5bb49bc4158588cd5c792498452a810c237ebb1737635dbbb"
+
+        "X-Mobsf-Api-Key": API_KEY
+
     }
 
     with open(apk_path, "rb") as apk_file:
+
         files = {
+
             "file": (
+
                 os.path.basename(apk_path),
+
                 apk_file,
+
                 "application/vnd.android.package-archive"
+
             )
+
         }
 
         response = requests.post(
+
             url,
+
             headers=headers,
+
             files=files
+
         )
-        
-        data  =  response.json()
-        return data
-    
+
+    response.raise_for_status()
+
+    return response.json()
+
+
+# -------------------------------------------------
+# Start Scan
+# -------------------------------------------------
 
 def start_scan(apk_hash):
-    url = "http://localhost:8080/api/v1/scan"
+    """
+    Starts the MobSF Static Scan.
+
+    Returns the complete JSON report.
+    """
+
+    url = f"{MOBSF_URL}/api/v1/scan"
+
     headers = {
-        "X-Mobsf-Api-Key": "b541bd4227fb67f5bb49bc4158588cd5c792498452a810c237ebb1737635dbbb"
+
+        "X-Mobsf-Api-Key": API_KEY
+
     }
-    data = {
 
-    "hash": apk_hash,
+    payload = {
 
-    "re_scan": 0
+        "hash": apk_hash,
 
-}
+        "re_scan": 0
+
+    }
+
     response = requests.post(
 
-    url,
+        url,
 
-    headers=headers,
+        headers=headers,
 
-    data=data
+        data=payload
 
-)
-    scan_result = response.json()
-    print(scan_result)
+    )
+
+    response.raise_for_status()
+
+    return response.json()
