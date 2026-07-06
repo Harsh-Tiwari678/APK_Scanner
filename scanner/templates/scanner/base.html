@@ -5,22 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{% static "scanner/styles.css" %}">
+    <link rel="stylesheet" href="{% static 'scanner/styles.css' %}">
 </head>
 <body>
     <nav>
-        <h2> APK Scaneer </h2>
-
-        <hr>
-
+        <h2>APK Scanner</h2>
     </nav>
+    <hr>
+
+    <main class="container">
         {% block content %}
-
         {% endblock %}
+    </main>
 
-        <footer>
-            Build with Django
-        </fotter>
-    
+    <footer>
+        <p>Build with Django</p>
+    </footer>
 </body>
 </html>

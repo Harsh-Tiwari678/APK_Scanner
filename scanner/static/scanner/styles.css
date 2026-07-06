@@ -1,8 +1,107 @@
-body{
-    background-color: rgb(9, 9, 95);
-    color: white;
+:root {
+    --bg-deep: #0a0b0d;
+    --bg-panel: #121417;
+    --accent: #00f2ff; /* Cyber Cyan */
+    --accent-glow: rgba(0, 242, 255, 0.4);
+    --border: #2d3436;
+    --text: #dcdde1;
 }
 
-h1{
-    color: rgb(163, 93, 32);
+body {
+    background-color: var(--bg-deep);
+    background-image: 
+        linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px; /* Grid background for tech vibe */
+    color: var(--text);
+    font-family: 'Consolas', 'Monaco', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Header with scan line effect */
+nav {
+    width: 100%;
+    padding: 20px;
+    border-bottom: 2px solid var(--accent);
+    text-align: center;
+    background: rgba(18, 20, 23, 0.9);
+}
+
+nav h2 {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 0;
+}
+
+/* The "Terminal" Container */
+.container {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 50px;
+    margin-top: 50px;
+    width: 400px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+
+/* Corner brackets for extra security look */
+.container::before, .container::after {
+    content: "";
+    position: absolute;
+    width: 20px; height: 20px;
+    border: 2px solid var(--accent);
+}
+.container::before { top: -5px; left: -5px; border-right: none; border-bottom: none; }
+.container::after { bottom: -5px; right: -5px; border-left: none; border-top: none; }
+
+h1 {
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--accent);
+    padding-left: 15px;
+}
+
+/* Input styling */
+input[type="file"] {
+    background: #000;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Button with hover pulse */
+button {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 15px;
+    width: 100%;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.4s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+footer {
+    position: fixed;
+    bottom: 20px;
+    font-size: 10px;
+    color: #57606f;
+    text-transform: uppercase;
 }
