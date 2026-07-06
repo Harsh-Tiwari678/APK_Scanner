@@ -1,6 +1,8 @@
 from django.shortcuts import render
 
-from .services import save_uploaded_apk
+from .services import save_uploaded_apk , start_scan
+
+from . services import upload_to_mobsf
 
 
 def home(request):
@@ -17,6 +19,10 @@ def home(request):
 
             apk = request.FILES["apk"]
 
-            save_uploaded_apk(apk)
+            apk_record = save_uploaded_apk(apk)
+
+            upload_data = upload_to_mobsf(apk_record.file_path)
+            apk_hash = upload_data["hash"]
+            start_scan(apk_hash)
 
     return render(request, "scanner/home.html", context)

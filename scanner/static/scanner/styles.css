@@ -1,8 +1,8 @@
 :root {
     --bg-deep: #0a0b0d;
     --bg-panel: #121417;
-    --accent: #00f2ff; /* Cyber Cyan */
-    --accent-glow: rgba(0, 242, 255, 0.4);
+    --accent: #2bff00; /* Cyber Cyan */
+    --accent-glow: rgba(81, 255, 0, 0.4);
     --border: #2d3436;
     --text: #dcdde1;
 }
