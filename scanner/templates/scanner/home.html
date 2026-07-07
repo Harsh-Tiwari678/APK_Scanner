@@ -1,15 +1,55 @@
 {% extends "scanner/base.html" %}
 
-{% block title %}APK Scanner{% endblock %}
+{% block title %}
+APK Scanner
+{% endblock %}
 
 {% block content %}
-    <h1>Upload your APK</h1>
-    
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <input type="file" name="apk" required>
-        </div>
-        <button type="submit">Upload and Scan</button>
-    </form>
+
+<h1>APK Scanner</h1>
+
+<h3>Upload APK</h3>
+
+<form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="form-group">
+        <input type="file" name="apk" required>
+    </div>
+
+    <br>
+
+    <button type="submit">
+        Upload & Scan
+    </button>
+
+</form>
+
+<br>
+
+{% if success %}
+
+    <p style="color:green;">
+        {{ message }}
+    </p>
+
+    <br>
+
+    <a href="{% url 'download_report' apk_id %}">
+        <button type="button">
+            Download Report
+        </button>
+    </a>
+
+{% endif %}
+
+{% if success == False %}
+
+    <p style="color:red;">
+        {{ message }}
+    </p>
+
+{% endif %}
+
 {% endblock %}

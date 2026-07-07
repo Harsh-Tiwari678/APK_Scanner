@@ -1,6 +1,18 @@
-from . import views
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', views.home,name="home")
+
+    path(
+        "",
+        views.home,
+        name="home"
+    ),
+
+    path(
+        "download/<int:apk_id>/",
+        views.download_report,
+        name="download_report"
+    ),
+
 ]
