@@ -41,7 +41,7 @@ def parse_scan_result(scan_result):
        
         "secrets": scan_result.get("secrets", []),
     }
-    print(report)
+    
 
 
     return report
